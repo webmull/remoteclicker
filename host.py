@@ -1,84 +1,39 @@
-
-# import socket programming library 
-import socket 
-
-# import thread module 
-from _thread import *
-import threading 
-
-print_lock = threading.Lock() 
-
-# thread function 
-def threaded(c): 
-	while True: 
-
-		# data received from client 
-		data = c.recv(1024) 
-		if not data: 
-			print('Bye') 
-			
-			# lock released on exit 
-			print_lock.release() 
-			break
-
-		# reverse the given string from client 
-		data = data[::-1] 
-
-		# send back reversed string to client 
-		c.send(data) 
-
-	# connection closed 
-	c.close() 
+import select
+import socket
 
 
-def Main(): 
-	host = "" 
+def main() -> None:
+    host = ""
+    port = 12345
 
-	# reverse a port on your computer 
-	# in our case it is 12345 but it 
-	# can be anything 
-	port = 12345
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-	s.bind((host, port)) 
-	print("socket binded to port", port) 
+    # create a TCP/IP socket
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.setblocking(0)
+        # bind the socket to the port
+        sock.bind((host, port))
+        # listen for incoming connections
+        sock.listen(5)
+        print("Server started...")
 
-	# put the socket into listening mode 
-	s.listen(5) 
-	print("socket is listening") 
+        # sockets from which we expect to read
+        inputs = [sock]
+        outputs = []
 
-	# a forever loop until client wants to exit 
-	while True: 
+        while inputs:
+            # wait for at least one of the sockets to be ready for processing
+            readable, writable, exceptional = select.select(inputs, outputs, inputs)
 
-		# establish connection with client 
-		c, addr = s.accept() 
+            for s in readable:
+                if s is sock:
+                    conn, addr = s.accept()
+                    inputs.append(conn)
+                else:
+                    data = s.recv(1024)
+                    if data:
+                        print(data)
+                    else:
+                        inputs.remove(s)
+                        s.close()
 
-		# lock acquired by client 
-		print_lock.acquire() 
-		print('Connected to :', addr[0], ':', addr[1]) 
-
-		# Start a new thread and return its identifier 
-		start_new_thread(threaded, (c,)) 
-	s.close() 
-
-
-if __name__ == '__main__': 
-	Main() 
-
-
-
-
-
-# import pyautogui
-# import time
-
-
-# time.sleep(10)
-
-# # Holds down the alt key
-# pyautogui.keyDown("up")
-# time.sleep(2)
-# pyautogui.keyDown("down")
-# time.sleep(2)
-# pyautogui.keyDown("up")
-# time.sleep(2)
-# pyautogui.keyDown("down")
+if __name__ == "__main__":
+    main()
