@@ -1,5 +1,6 @@
 import select
 import socket
+import pyautogui
 
 
 def main() -> None:
@@ -8,6 +9,7 @@ def main() -> None:
 
     # create a TCP/IP socket
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.setblocking(0)
         # bind the socket to the port
         sock.bind((host, port))
@@ -30,7 +32,17 @@ def main() -> None:
                 else:
                     data = s.recv(1024)
                     if data:
-                        print(data)
+                        decoded = data.decode()
+                        if decoded == 'right':
+                            print("right pressed")
+                            pyautogui.press('down') 
+                        elif decoded == 'left':
+                            print("left pressed")
+                            pyautogui.press('up') 
+
+                        # if()
+                        # pyautogui.press('f1') 
+
                     else:
                         inputs.remove(s)
                         s.close()

