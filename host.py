@@ -2,7 +2,6 @@ import select
 import socket
 import pyautogui
 
-
 def main() -> None:
     host = ""
     port = 12345
@@ -39,10 +38,6 @@ def main() -> None:
                         elif decoded == 'left':
                             print("left pressed")
                             pyautogui.press('up') 
-
-                        # if()
-                        # pyautogui.press('f1') 
-
                     else:
                         inputs.remove(s)
                         s.close()

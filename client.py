@@ -36,26 +36,3 @@ print("connected")
 
 with Listener(on_press=on_press) as listener:  # Setup the listener
 	listener.join()  # Join the thread to the main thread
-
-
-
-	# while True:
-
-	# 	# message sent to server
-	# 	s.send(message.encode('ascii'))
-
-	# 	# messaga received from server
-	# 	data = s.recv(1024)
-
-	# 	# print the received message
-	# 	# here it would be a reverse of sent message
-	# 	print('Received from the server :',str(data.decode('ascii')))
-
-	# 	# ask the client whether he wants to continue
-	# 	ans = input('\nDo you want to continue(y/n) :')
-	# 	if ans == 'y':
-	# 		continue
-	# 	else:
-	# 		break
-	# # close the connection
-	# s.close()
