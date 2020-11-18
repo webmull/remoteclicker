@@ -34,10 +34,10 @@ def main() -> None:
                         decoded = data.decode()
                         if decoded == 'right':
                             print("right pressed")
-                            pyautogui.press('down') 
+                            pyautogui.press('right') 
                         elif decoded == 'left':
                             print("left pressed")
-                            pyautogui.press('up') 
+                            pyautogui.press('left') 
                     else:
                         inputs.remove(s)
                         s.close()

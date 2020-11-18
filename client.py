@@ -6,13 +6,13 @@ import sys
 s = None
 
 def on_press(key):
-    if key == Key.left:  # If space was pressed, write a space
+    if key == Key.left: 
         print('left key was pressed')
         s.send("left".encode('ascii'))
-    elif key == Key.right:  # If enter was pressed, write a new line
+    elif key == Key.right: 
         print('right key was pressed')
         s.send("right".encode('ascii'))
-    elif key == Key.enter:  # If enter was pressed, write a new line
+    elif key == Key.enter: 
         print('closing connection')
         s.close()
         exit()
